@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="StudentTaskTrackerAPI/StudentTaskTrackerAPI.csproj" />
+  <Project Path="StudentTaskTrackerMVC/StudentTaskTrackerMVC.csproj" />
+</Solution>
