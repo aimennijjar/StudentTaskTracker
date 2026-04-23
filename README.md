@@ -37,7 +37,6 @@ User → MVC App → API Microservice → Database
 4. Make sure MVC points to the API base URL
 
 ## Deployment Links
-- MVC: to be added
-- API: to be added
+https://studenttasktracker3.onrender.com
 
 ## Screenshots
