@@ -1,0 +1,52 @@
+@model StudentTaskTrackerMVC.Models.TaskFormViewModel
+
+@{
+    ViewData["Title"] = "Create Task";
+}
+
+<h2>Create Task</h2>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="Task.Title" class="form-label"></label>
+        <input asp-for="Task.Title" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Task.Description" class="form-label"></label>
+        <input asp-for="Task.Description" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Task.DueDate" class="form-label"></label>
+<input asp-for="Task.DueDate" type="date" class="form-control" value="@Model.Task.DueDate.ToString("yyyy-MM-dd")" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Task.Status" class="form-label"></label>
+        <select asp-for="Task.Status" class="form-control">
+            <option>Pending</option>
+            <option>In Progress</option>
+            <option>Completed</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Task.Priority" class="form-label"></label>
+        <select asp-for="Task.Priority" class="form-control">
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Task.ProjectId" class="form-label">Project</label>
+        <select asp-for="Task.ProjectId" asp-items="Model.Projects" class="form-control">
+            <option value="">Select a project</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Save Task</button>
+    <a asp-action="Index" class="btn btn-secondary">Back</a>
+</form>

@@ -1,0 +1,116 @@
+@model StudentTaskTrackerMVC.Models.TasksPageViewModel
+
+@{
+    ViewData["Title"] = "Tasks";
+}
+
+<h2>Tasks</h2>
+
+@if (User.IsInRole("Admin") || User.IsInRole("User"))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Add New Task</a>
+    </p>
+}
+
+@if (User.IsInRole("Viewer"))
+{
+    <form method="get" class="mb-3">
+        <input type="email" name="email" value="@Model.SearchEmail" placeholder="Enter user email" class="form-control mb-2" />
+
+        <input type="text" name="title" placeholder="Search title" class="form-control mb-2" />
+
+        <select name="status" class="form-control mb-2">
+            <option value="">All Status</option>
+            <option>Pending</option>
+            <option>In Progress</option>
+            <option>Completed</option>
+        </select>
+
+        <select name="priority" class="form-control mb-2">
+            <option value="">All Priority</option>
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary">Search User Tasks</button>
+        <a href="/Tasks" class="btn btn-secondary">Reset</a>
+    </form>
+
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <p class="text-danger">@Model.Message</p>
+    }
+}
+else
+{
+    <form method="get" class="mb-3">
+        <input type="text" name="title" placeholder="Search title" class="form-control mb-2" />
+
+        <select name="status" class="form-control mb-2">
+            <option value="">All Status</option>
+            <option>Pending</option>
+            <option>In Progress</option>
+            <option>Completed</option>
+        </select>
+
+        <select name="priority" class="form-control mb-2">
+            <option value="">All Priority</option>
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary">Search</button>
+        <a href="/Tasks" class="btn btn-secondary">Reset</a>
+    </form>
+}
+
+@foreach (var group in Model.GroupedTasks)
+{
+    <h4 class="mt-4">@group.UserEmail</h4>
+
+    @if (group.Tasks.Any())
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Project</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var task in group.Tasks)
+                {
+                    <tr>
+                        <td>@task.Title</td>
+                        <td>@task.Description</td>
+                        <td>@task.DueDate.ToShortDateString()</td>
+                        <td>@task.Status</td>
+                        <td>@task.Priority</td>
+<td>@task.ProjectName</td>
+                        <td>
+    <a asp-controller="Notes" asp-action="Index" asp-route-taskId="@task.TaskItemId" class="btn btn-info btn-sm">Notes</a>
+
+    @if (User.IsInRole("Admin") || User.IsInRole("User"))
+    {
+        <a asp-action="Edit" asp-route-id="@task.TaskItemId" class="btn btn-warning btn-sm">Edit</a>
+        <a asp-action="Delete" asp-route-id="@task.TaskItemId" class="btn btn-danger btn-sm">Delete</a>
+    }
+</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p class="text-muted">No tasks for this user.</p>
+    }
+}

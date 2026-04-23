@@ -1,0 +1,21 @@
+@model StudentTaskTrackerMVC.Models.QuoteViewModel
+
+@{
+    ViewData["Title"] = "Motivation";
+}
+
+<h2 class="mb-4">Motivation</h2>
+
+<form method="post">
+    <button type="submit" class="btn btn-primary">Get Random Quote</button>
+</form>
+
+@if (!string.IsNullOrEmpty(Model.QuoteText))
+{
+    <div class="card mt-4 shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">Your Quote</h5>
+            <p class="card-text">@Model.QuoteText</p>
+        </div>
+    </div>
+}

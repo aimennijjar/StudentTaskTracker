@@ -1,0 +1,55 @@
+@model StudentTaskTrackerMVC.Models.TaskNotesViewModel
+
+@{
+    ViewData["Title"] = "Task Notes";
+}
+
+<h2>Task Notes</h2>
+
+@if (Model.Task != null)
+{
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h4>@Model.Task.Title</h4>
+            <p><strong>Description:</strong> @Model.Task.Description</p>
+            <p><strong>Status:</strong> @Model.Task.Status</p>
+            <p><strong>Priority:</strong> @Model.Task.Priority</p>
+        </div>
+    </div>
+}
+
+<h4>Notes</h4>
+
+@if (Model.Notes.Any())
+{
+    <ul class="list-group mb-4">
+        @foreach (var note in Model.Notes)
+        {
+            <li class="list-group-item">@note.Content</li>
+        }
+    </ul>
+}
+else
+{
+    <p class="text-muted">No notes added yet.</p>
+}
+
+@if (User.IsInRole("Admin") || User.IsInRole("User"))
+{
+    <h4>Add Note</h4>
+
+    <form asp-action="AddNote" method="post">
+        <input type="hidden" name="taskId" value="@Model.Task?.TaskItemId" />
+
+        <div class="mb-3">
+            <textarea name="newNoteContent" class="form-control" rows="3" placeholder="Enter note here"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Note</button>
+        <a asp-controller="Tasks" asp-action="Index" class="btn btn-secondary">Back to Tasks</a>
+    </form>
+}
+else
+{
+    <a asp-controller="Tasks" asp-action="Index" class="btn btn-secondary">Back to Tasks</a>
+}
